@@ -1,3 +1,3 @@
-from rest import Link
+from main import Link
 
 print(Link.query.all())
