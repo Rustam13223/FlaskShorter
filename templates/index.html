@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>linkShorter</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+  </head>
+
+  <body>
+    <div>
+    <form>
+      <div class="form-group input-group-lg">
+        <label for="url">Обычная ссылка</label>
+        <input type="text" class="form-control" id="url" placeholder="Enter URL" autocomplete="off">
+      </div>
+      <div class="form-group input-group-lg">
+	<label for="shot">Ссылку которую хотите получить</label>
+	<input type="text" class="form-control" id="shot" placeholder="Enter short version" autocomplete="off">
+      </div>
+      <h2 id="res"></h2>
+      <div class="btn">
+	<input class="btn btn-secondary btn-lg" type="button" id="send" value="Send">
+      </div>
+    </form>
+    </div>
+
+
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: #e9ecef;
+        align-items: center;
+      }
+
+      form {
+        max-width: 800px;
+        margin: auto;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 8px 0;
+      }
+
+      @media screen and (max-width: 770px) {
+        form {
+          width: 100%;
+        }
+      }
+    </style>
+
+
+    <script>
+      $(document).ready( () => {
+        $("#send").click( () => {
+          var shot = $("#shot").val();
+	  var url = $("#url").val();
+	  var data = { "shot": shot, "url": url };
+	  $.ajax({
+            url: "/new/",
+	    type: "POST",
+	    data: JSON.stringify(data),
+	    contentType: "application/json;",
+	    async: false,
+            success: (res, stat, jqXHR) => {
+              for (var key in res) {
+                if (res[key] == "OK") {
+                  $("#res").text("Ваша короткая ссылка: xrusts.com/" + shot);
+                } else {
+                  $("#res").text(key + " " + res[key]);
+                }
+              }
+	    }
+	  });
+	});
+      });
+    </script>
+
+  </body>
+</html>
+    
